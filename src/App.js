@@ -14,7 +14,7 @@ function App(props) {
   const [filter, setFilter] = useState("All");
 
   const FILTER_MAP = {
-    All: ()=> true,
+    All: () => true,
     Active: (task) => !task.completed,
     completed: (task) => task.completed
   }
@@ -22,6 +22,10 @@ function App(props) {
   const FILTER_NAMES = Object.keys(FILTER_MAP);
 
   function addTask(name) {
+    if (checkRepeat(name)) {
+      alert("this name " + name + " task alreay exist!")
+      return;
+    }
     const newTask = { id: `todo-${nanoid()}`, name, completed: false };
     setTasks([...tasks, newTask]);
     console.log([...tasks, newTask]);
@@ -50,9 +54,18 @@ function App(props) {
 
   }
 
+  function checkRepeat(name) {
+    return tasks.filter((task) => task.name === name);
+
+  }
   function editTask(id, newName) {
 
-    alert(id + " " + newName);
+
+    if (checkRepeat(newName)) {
+      alert("this name " + newName + " task alreay exist!")
+      return;
+    }
+    
 
     const reNamedTasks = tasks.map((task) => {
 
@@ -82,7 +95,7 @@ function App(props) {
   });
 
   const buttons = FILTER_NAMES.map((name) => {
-    return <FilterButton key={name} name={name} pressed={filter===name ? true: false} setFilter={setFilter} />
+    return <FilterButton key={name} name={name} pressed={filter === name ? true : false} setFilter={setFilter} />
   });
 
 
