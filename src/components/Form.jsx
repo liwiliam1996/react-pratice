@@ -1,7 +1,17 @@
+import { useState } from "react";
+
 export default function Form (props) {
+
+  const [name,setName] = useState("");
+
     function handleSubmit(event) {
         event.preventDefault();
-        alert("Hello world!");
+        props.addTask(name);
+        setName("");
+    }
+    function handleChange(event) {
+      //console.log(event.target.value);
+      setName(event.target.value);
     }
     return (
         <form onSubmit={handleSubmit}>
@@ -14,8 +24,10 @@ export default function Form (props) {
           type="text"
           id="new-todo-input"
           className="input input__lg"
-          name="text"
+          name="text" 
+          value={name}
           autoComplete="off"
+          onChange={handleChange}
         />
         <button type="submit" className="btn btn__primary btn__lg">
           Add
